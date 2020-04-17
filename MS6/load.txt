@@ -1,0 +1,59 @@
+	bool Parking::loadDataFile(std::ostream& os) {
+		bool flag = false; 
+
+		if (!isEmpty()) {
+		
+			ifstream f; //file object
+			f.open(file_name); //open the file
+
+			if (!f.is_open()) {
+				f.close();
+				flag = true; //empty state, first time running the app
+			}
+
+			else {
+			
+				int nOfVehicles = 0;
+				char vehicleType;
+				//checking for the vehicle
+				while (f.good()) { //read until end of file
+
+					Vehicle* V = nullptr;
+					while (f >> vehicleType) {
+						f.ignore();
+
+						if (vehicleType == 'M') {
+							V = new Motorcycle;
+						}
+
+						else if (vehicleType == 'C') {
+							V = new Car;
+						}
+						V->setCsv(true);
+						V->read(f);
+						nOfVehicles++;
+						if (f.good()) { 
+							int index = V->getParkingSpot() - 1;
+							spot[index] = V;
+							spots_parked++;
+						}
+						//if not, delete the vehice
+						else {
+							delete V;
+						}
+
+					}
+
+
+				}
+				f.close();
+				
+				if (nOfVehicles < parking_spots) {
+					flag = true;
+				}
+				
+			}
+		}
+
+		return flag;
+	}
