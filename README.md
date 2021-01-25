@@ -1,4 +1,4 @@
-# OOP244 - Parking Application
+Parking Application
 
 ## Overview
 A fully functional valet application that accepts cars and motorcycles.  
